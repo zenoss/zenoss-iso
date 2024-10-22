@@ -31,37 +31,8 @@ case "${CENTOS_ISO}" in
    *2009*)
         export CENTOS_ABBREV=centos7.9.2009
         ;;
-
-   *2003*)
-        export CENTOS_ABBREV=centos7.8.2003
-        ;;
-
-   *1810*)
-	export CENTOS_ABBREV=centos7.6.1810
-	;;
-
-   *1804*)
-	export CENTOS_ABBREV=centos7.5.1804
-	;;
-
-   *1708*)
-	export CENTOS_ABBREV=centos7.4.1708
-	;;
-
-   *1611*)
-	export CENTOS_ABBREV=centos7.3.1611
-	;;
-
-   *1511*)
-	export CENTOS_ABBREV=centos7.2.1511
-	;;
-
-   *1503*)
-	export CENTOS_ABBREV=centos7.1.1503
-	;;
-
    *)
-	echo "ERROR: CENTOS_ISO='${CENTOS_ISO}' does not contain one of the recognized versions: 1503, 1511, 1611, 1708, 1804, 1810, 2003, 2009"
+	echo "ERROR: CENTOS_ISO='${CENTOS_ISO}' does not contain one of the recognized versions: 2009"
 	exit 1
 	;;
 esac
