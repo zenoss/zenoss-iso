@@ -8,7 +8,18 @@ mkdir -p /home/centos/tmp
 cd /home/centos/tmp
 
 # Updated CentOS mirrors
-sudo curl -fsSL https://autoinstall.plesk.com/PSA_18.0.62/examiners/repository_check.sh | bash -s -- update >/dev/null
+# Add a new repository to replace CentOS 7 mirrorlist
+{
+ echo "[CentOS-Base]";
+ echo "name=CentOS-Base";
+ echo "baseurl=http://vault.centos.org/7.9.2009/os/x86_64/";
+ echo "enabled=1";
+ echo "gpgcheck=0";
+} | sudo tee /etc/yum.repos.d/CentOS-Base.repo
+# Clear yum cache and update system
+sudo yum clean all
+sudo yum update -y
+
 # Get yumdownloader
 sudo yum -y install yum-utils
 
@@ -43,7 +54,7 @@ yumdownloader --resolve bind-utils
 tar -czvf ../centos7-os-rpms.tar.gz ./*.rpm
 
 # Install the Zenoss repo so
-curl -sO http://get.zenoss.io/yum/zenoss-repo-1-1.x86_64.rpm
+curl -L -sO http://get.zenoss.io/yum/zenoss-repo-1-1.x86_64.rpm
 sudo yum localinstall -y zenoss-repo-1-1.x86_64.rpm
 
 sudo chmod 777 /etc/yum.repos.d
