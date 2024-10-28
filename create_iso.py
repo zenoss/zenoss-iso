@@ -11,14 +11,11 @@ from subprocess import check_call, check_output
 log.basicConfig(level=log.INFO)
 
 # ISO Builder docker image.
-DOCKER_BUILDER = 'docker-registry-v2.zenoss.eng/base-iso-build:1.0.1'
+DOCKER_BUILDER = 'zenoss/serviced-iso-build:base-1.0.2'
 
-# If you do not have access to docker-registry-v2.zenoss.eng:
+# If you do not have access to docker hub:
 # 1. Build the image in ./builder with "docker build ."
-# 2. Tag the resulting image as iso-build:latest
-# 3. Set the environment variable ISO_BUILD_IMAGE to 'iso-build'
-if os.environ.get("ISO_BUILD_IMAGE"):
-    DOCKER_BUILDER = os.environ.get("ISO_BUILD_IMAGE")
+# 2. Tag the resulting image as base-1.0.2
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description= 'Make a CentOS ISO.')
@@ -37,9 +34,8 @@ if __name__ == '__main__':
     build_dir = os.path.abspath(args.build_dir)
 
     # Get builder image
-    if DOCKER_BUILDER.startswith('docker-registry-v2.zenoss.eng'):
-        log.info('Calling docker pull to update ISO builder image')
-        check_call('docker pull %s' % DOCKER_BUILDER, shell=True)
+    log.info('Calling docker pull to update ISO builder image')
+    check_call('docker pull %s' % DOCKER_BUILDER, shell=True)
 
     # Create the Serviced ISO from base_iso + yum mirror.
     # The result is saved as an ISO
