@@ -16,7 +16,7 @@ export BUILD_DIR=output
 export PACKER_CACHE_DIR="${HOME}/packer_cache"
 export PACKER_LOG=1
 export PACKER_LOG_PATH="${BUILD_DIR}/packer-${SERVICED_RPM}.log"
-SERVICED_ARTIFACT_BASENAME=serviced-1.10.1-1-stable-centos7.9.2009-bld-8
+SERVICED_ARTIFACT_BASENAME=serviced-1.11.0-0.0.13.unstable-unstable-centos7.9.2009-bld-19
 SERVICED_CENTOS_ISO_URL=http://artifacts.zenoss.eng/isos/serviced/${SERVICED_ARTIFACT_BASENAME}.iso
 CHECKSUM_FILEPATH=output/${SERVICED_ARTIFACT_BASENAME}.md5sum.txt
 

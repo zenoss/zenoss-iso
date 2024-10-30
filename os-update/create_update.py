@@ -27,13 +27,11 @@ UPDATESCRIPTS_DIR = os.path.abspath(os.path.join(THIS_DIR, 'update-scripts'))
 
 # ISO Builder docker image.
 ISO_TAG = "7.2-10"
-DOCKER_BUILDER = 'docker-registry-v2.zenoss.eng/iso-build:%s' % ISO_TAG
+DOCKER_BUILDER = 'zenoss/serviced-iso-build:%s' % ISO_TAG
 
-# If you do not have access to docker-registry-v2.zenoss.eng:
+# If you do not have access to docker hub:
 # 1. Build the image with "make build"
-# 2. Set the environment variable ISO_BUILD_IMAGE to 'iso-build'
-if os.environ.get("ISO_BUILD_IMAGE"):
-    DOCKER_BUILDER = os.environ.get("ISO_BUILD_IMAGE")
+# 2. Tag the resulting image as 'zenoss/serviced-iso-build:7.2-10'
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description= 'Make an update ISO package.')
@@ -48,9 +46,8 @@ if __name__ == '__main__':
     build_dir = os.path.abspath(args.build_dir)
 
     # Update builder image
-    if DOCKER_BUILDER.startswith('docker-registry-v2.zenoss.eng'):
-        log.info('Calling docker pull to update the builder image')
-        check_call('docker pull %s' % DOCKER_BUILDER, shell=True)
+    log.info('Calling docker pull to update the builder image')
+    check_call('docker pull %s' % DOCKER_BUILDER, shell=True)
 
     # Create ISO
     cmd = 'docker run --privileged=true --rm'\
