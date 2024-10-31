@@ -4,9 +4,7 @@ import argparse
 import logging as log
 import os
 
-from subprocess import check_call, check_output
-from urllib import urlretrieve
-from urllib2 import urlopen
+from subprocess import check_call
 
 log.basicConfig(level=log.INFO)
 
@@ -53,7 +51,7 @@ if __name__ == '__main__':
     cmd = 'docker run --privileged=true --rm'\
         ' -e "OS_MIRROR=%s"'\
         ' -e "BUILD_NUMBER=%s"'\
-        ' -e "CENTOS_ABBREV=%s"'\
+        ' -e "LINUX_OS_ABBREV=%s"'\
         ' -v=%s:/build'\
         ' -v=%s:/config'\
         ' -v=%s:/update-scripts'\
@@ -61,7 +59,7 @@ if __name__ == '__main__':
         ' %s /bin/bash /config/makeupdateiso.sh' % (
             args.os_mirror,
             args.build_number,
-            os.environ.get("CENTOS_ABBREV"),
+            os.environ.get("LINUX_OS_ABBREV"),
             build_dir,
             CONFIG_DIR,
             UPDATESCRIPTS_DIR,

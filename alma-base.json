@@ -6,17 +6,17 @@
       "guest_os_type": "centos-64",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "md5",
-      "vm_name": "{{user `vm_name`}}",
+      "iso_checksum_type": "sha256",
+      "vm_name": "{{user `linux_os_iso`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ssh_password": "{{user `ssh_password`}}",
-      "ssh_wait_timeout": "900s",
+      "ssh_wait_timeout": "1200s",
       "headless": true,
       "disk_size": 32768,
       "http_directory": "http",
       "boot_command": [
         "<wait><esc><esc>",
-        "linux ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `kickstart`}}<enter>"
+        "linux inst.ks=http://{{.HTTPIP}}:{{.HTTPPort}}/{{user `kickstart`}}<enter>"
       ],
       "ssh_port": 22,
       "vmx_data": {
@@ -25,7 +25,8 @@
         "virtualhw.version": "8",
         "mainMem.useNamedFile": "FALSE",
         "mainMem.backing": "swap"
-      }
+      },
+      "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
     },
     {
       "type": "virtualbox-iso",
@@ -33,11 +34,11 @@
       "guest_os_type": "RedHat_64",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "md5",
-      "vm_name": "test-{{user `linux_os_iso`}}",
+      "iso_checksum_type": "sha256",
+      "vm_name": "{{user `linux_os_iso`}}",
       "ssh_username": "{{user `ssh_username`}}",
       "ssh_password": "{{user `ssh_password`}}",
-      "ssh_wait_timeout": "900s",
+      "ssh_wait_timeout": "1200s",
       "headless": true,
       "disk_size": 32768,
       "http_directory": "http",
@@ -54,50 +55,18 @@
   ],
   "provisioners": [
     {
-      "type": "file",
-      "source": "output/{{user `cc_rpm`}}",
-      "destination": "/tmp/{{user `cc_rpm`}}"
-    },
-    {
       "type": "shell",
-      "inline": [
-        "echo 'MERGE-RPM-TEST-DEPS: BEGIN installing zenoss-mirror RPM'",
-        "sudo yum -y localinstall /opt/centos-updates/yum-mirror-serviced.rpm",
-        "echo 'MERGE-RPM-TEST-DEPS: DONE installing zenoss-mirror RPM'",
-        "echo 'MERGE-RPM-TEST-DEPS: BEGIN installing CentOS updates from zenoss-mirror'",
-        "sudo yum -y --disablerepo=\\* --enablerepo=zenoss-mirror update",
-        "echo 'MERGE-RPM-TEST-DEPS: DONE installing CentOS updates from zenoss-mirror'"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "echo 'MERGE-RPM-TEST-DEPS: BEGIN installing {{user `cc_rpm`}}'"
-      ]
-    },
-    {
-      "type": "shell",
-      "script": "test-serviced-deps.sh",
-      "environment_vars": [
-        "CC_RPM_DIR=/tmp",
-        "CC_RPM_FILENAME={{user `cc_rpm`}}"
-      ]
-    },
-    {
-      "type": "shell",
-      "inline": [
-        "echo 'MERGE-RPM-TEST-DEPS: DONE installing {{user `cc_rpm`}}'"
-      ]
+      "inline": [ "echo 'START RPM LIST'; rpm -qa; echo 'END RPM LIST'" ]
     }
   ],
   "variables": {
     "inputdir": "prereqs",
-    "kickstart": "test-iso-kickstart",
+    "kickstart": "alma-base-kickstart",
     "outputdir": "output",
+    "linux_os_iso": "",
     "iso_url": "",
     "iso_checksum": "",
-    "ssh_username": "centos",
-    "ssh_password": "centos",
-    "cc_rpm": ""
+    "ssh_username": "alma",
+    "ssh_password": "alma"
   }
 }

@@ -9,8 +9,8 @@
 #   - /update-scripts maps to this source tree's update-scripts dir
 #   - /output the directory where the resulting ISO goes
 
-ISO_ID="${CENTOS_ABBREV}_os_update"
-ISO_FILENAME="update-os-${CENTOS_ABBREV}-bld-${BUILD_NUMBER}.x86_64.iso"
+ISO_ID="${LINUX_OS_ABBREV}_os_update"
+ISO_FILENAME="update-os-${LINUX_OS_ABBREV}-bld-${BUILD_NUMBER}.x86_64.iso"
 
 cd /
 

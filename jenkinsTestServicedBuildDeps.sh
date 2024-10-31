@@ -17,7 +17,7 @@ export PACKER_CACHE_DIR="${HOME}/packer_cache"
 export PACKER_LOG=1
 export PACKER_LOG_PATH="${BUILD_DIR}/packer-${SERVICED_RPM}.log"
 SERVICED_ARTIFACT_BASENAME=serviced-1.11.0-0.0.13.unstable-unstable-centos7.9.2009-bld-19
-SERVICED_CENTOS_ISO_URL=http://artifacts.zenoss.eng/isos/serviced/${SERVICED_ARTIFACT_BASENAME}.iso
+SERVICED_LINUX_OS_ISO_URL=http://artifacts.zenoss.eng/isos/serviced/${SERVICED_ARTIFACT_BASENAME}.iso
 CHECKSUM_FILEPATH=output/${SERVICED_ARTIFACT_BASENAME}.md5sum.txt
 
 wget -q http://artifacts.zenoss.eng/isos/serviced/${SERVICED_ARTIFACT_BASENAME}.md5sum.txt -O ${CHECKSUM_FILEPATH}
@@ -27,11 +27,11 @@ then
   exit 1
 fi
 
-SERVICED_CENTOS_ISO_CHECKSUM=`cat ${CHECKSUM_FILEPATH} | grep iso | awk '{print $1}'`
+SERVICED_LINUX_OS_ISO_CHECKSUM=`cat ${CHECKSUM_FILEPATH} | grep iso | awk '{print $1}'`
 
 packer -machine-readable build -force -only=vmware-iso \
-  -var iso_url=${SERVICED_CENTOS_ISO_URL} \
-  -var iso_checksum=${SERVICED_CENTOS_ISO_CHECKSUM} \
+  -var iso_url=${SERVICED_LINUX_OS_ISO_URL} \
+  -var iso_checksum=${SERVICED_LINUX_OS_ISO_CHECKSUM} \
   -var outputdir=./vm-output \
   -var cc_rpm=${SERVICED_RPM} \
   test-centos-base.json

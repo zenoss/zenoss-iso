@@ -1,5 +1,5 @@
 IMAGENAME  = serviced-iso-build
-VERSION   ?= base-1.0.2
+VERSION   ?= alma-base-1.0.2
 TAG = zenoss/$(IMAGENAME):$(VERSION)
 
 .PHONY: build push clean
