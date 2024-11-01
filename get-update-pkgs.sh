@@ -15,6 +15,11 @@ cd /home/centos/tmp
  echo "baseurl=http://vault.centos.org/7.9.2009/os/x86_64/";
  echo "enabled=1";
  echo "gpgcheck=0";
+ echo "[CentOS-Extras]";
+ echo "name=CentOS-Extras";
+ echo "baseurl=https://vault.centos.org/7.9.2009/extras/x86_64/";
+ echo "enabled=1";
+ echo "gpgcheck=0";
 } | sudo tee /etc/yum.repos.d/CentOS-Base.repo
 # Clear yum cache and update system
 sudo yum clean all
@@ -50,6 +55,9 @@ yumdownloader --resolve open-vm-tools
 yumdownloader --resolve tcpdump
 yumdownloader --resolve dnsmasq
 yumdownloader --resolve bind-utils
+yumdownloader --resolve slirp4netns
+yumdownloader --resolve fuse-overlayfs
+yumdownloader --resolve container-selinux
 
 tar -czvf ../centos7-os-rpms.tar.gz ./*.rpm
 
