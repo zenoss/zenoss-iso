@@ -3,16 +3,16 @@
   {
     "type": "vmware-vmx",
     "source_path": "{{user `vm_source`}}",
-    "ssh_username": "centos",
-    "ssh_password": "centos",
+    "ssh_username": "rocky",
+    "ssh_password": "rocky",
     "headless": true,
     "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
   },
   {
     "type": "virtualbox-ovf",
     "source_path": "{{user `vm_source`}}",
-    "ssh_username": "centos",
-    "ssh_password": "centos",
+    "ssh_username": "rocky",
+    "ssh_password": "rocky",
     "headless": true,
     "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
   }
@@ -25,18 +25,18 @@
         "CC_REPO={{user `cc_repo`}}"
       ],
       "scripts": [
-        "./get-update-pkgs.sh"
+        "./get-update-pkgs-rocky.sh"
       ]
     },
     {
       "type": "file",
-      "source": "/home/centos/centos7-rpms.tar.gz",
+      "source": "/home/rocky/rocky9-rpms.tar.gz",
       "destination": "{{user `outputdir`}}/{{user `rpm_tarfile`}}",
       "direction": "download"
     },
     {
       "type": "file",
-      "source": "/home/centos/centos7-os-rpms.tar.gz",
+      "source": "/home/rocky/rocky9-os-rpms.tar.gz",
       "destination": "{{user `outputdir`}}/{{user `rpm_os_tarfile`}}",
       "direction": "download"
     }

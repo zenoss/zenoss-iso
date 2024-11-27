@@ -1,17 +1,13 @@
 #!/usr/bin/env python
 
 import argparse
-import json
 import logging as log
 import os
 
-from subprocess import check_call, check_output
+from subprocess import check_call
 
 
 log.basicConfig(level=log.INFO)
-
-# ISO Builder docker image.
-DOCKER_BUILDER = 'zenoss/serviced-iso-build:base-1.0.2'
 
 # If you do not have access to docker hub:
 # 1. Build the image in ./builder with "docker build ."
@@ -29,12 +25,16 @@ if __name__ == '__main__':
                         help='the name of the tar file containing RPM updates')
     parser.add_argument('--output-name', type=str, required=True,
                         help='the name of the ISO file to be created')
+    parser.add_argument('--linux-os', type=str, required=True,
+                        help='the name of linux distribution of docker builder')
     args = parser.parse_args()
 
     build_dir = os.path.abspath(args.build_dir)
 
     # Get builder image
     log.info('Calling docker pull to update ISO builder image')
+    # ISO Builder docker image.
+    DOCKER_BUILDER = 'zenoss/serviced-iso-build:%s-base-1.0.2' % args.linux_os
     check_call('docker pull %s' % DOCKER_BUILDER, shell=True)
 
     # Create the Serviced ISO from base_iso + yum mirror.
@@ -44,6 +44,6 @@ if __name__ == '__main__':
                 args.base_iso, args.yum_mirror, args.output_name,
                 build_dir, build_dir,
                 DOCKER_BUILDER)
-    log.info('>%s' % cmd);
+    log.info('>%s' % cmd)
     check_call(cmd, shell=True)
 

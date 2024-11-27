@@ -43,6 +43,7 @@ function remove_os_mirror() {
 function replace_os_mirror() {
     green "Installing Zenoss operating system mirror repository..."
     # Replace old yum-mirror, if any, with new one.
+    # TODO define OS and package manager
     RHEL_VERSION=$(awk '{print $4}' /etc/redhat-release)
     YUM_MIRROR=$(ls ${DIR}/centos${RHEL_VERSION}-os-bld-*)
     remove_os_mirror

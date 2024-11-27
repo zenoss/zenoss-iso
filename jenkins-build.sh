@@ -21,8 +21,16 @@ mkdir -p ${CONSOLIDATED_OUTPUT}
 
 set -e
 
-export CENTOS_ISO=CentOS-7-x86_64-Minimal-2009
+export LINUX_OS_ISO=CentOS-7-x86_64-Minimal-2009
 export ISO_CHECKSUM=a4711c4fa6a1fb32bd555fae8d885b12
+./build-serviced-iso.sh
+
+export LINUX_OS_ISO=Rocky-9.4-x86_64-minimal
+export ISO_CHECKSUM=ee3ac97fdffab58652421941599902012179c37535aece76824673105169c4a2
+./build-serviced-iso.sh
+
+export LINUX_OS_ISO=AlmaLinux-9.4-x86_64-minimal
+export ISO_CHECKSUM=20123bb9f8319143e792b906137236bdcb0d10b023c36626ca2d8e9f62144eb9
 ./build-serviced-iso.sh
 
 #
@@ -32,3 +40,13 @@ mv -f ./output-centos*/update-os* ${CONSOLIDATED_OUTPUT}
 mv -f ./output-centos*/serviced* ${CONSOLIDATED_OUTPUT}
 mv -f ./output-centos*/*.tar.gz ${CONSOLIDATED_OUTPUT}
 mv -f ./output-centos*/packer*.log ${CONSOLIDATED_OUTPUT}
+
+mv -f ./output-rocky*/update-os* ${CONSOLIDATED_OUTPUT}
+mv -f ./output-rocky*/serviced* ${CONSOLIDATED_OUTPUT}
+mv -f ./output-rocky*/*.tar.gz ${CONSOLIDATED_OUTPUT}
+mv -f ./output-rocky*/packer*.log ${CONSOLIDATED_OUTPUT}
+
+mv -f ./output-alma*/update-os* ${CONSOLIDATED_OUTPUT}
+mv -f ./output-alma*/serviced* ${CONSOLIDATED_OUTPUT}
+mv -f ./output-alma*/*.tar.gz ${CONSOLIDATED_OUTPUT}
+mv -f ./output-alma*/packer*.log ${CONSOLIDATED_OUTPUT}

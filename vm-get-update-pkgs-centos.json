@@ -1,0 +1,51 @@
+{
+  "builders": [
+  {
+    "type": "vmware-vmx",
+    "source_path": "{{user `vm_source`}}",
+    "ssh_username": "centos",
+    "ssh_password": "centos",
+    "headless": true,
+    "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
+  },
+  {
+    "type": "virtualbox-ovf",
+    "source_path": "{{user `vm_source`}}",
+    "ssh_username": "centos",
+    "ssh_password": "centos",
+    "headless": true,
+    "shutdown_command": "echo 'packer' | sudo -S shutdown -P now"
+  }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "environment_vars": [
+        "CC_RPM={{user `cc_rpm`}}",
+        "CC_REPO={{user `cc_repo`}}"
+      ],
+      "scripts": [
+        "./get-update-pkgs-centos.sh"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "/home/centos/centos7-rpms.tar.gz",
+      "destination": "{{user `outputdir`}}/{{user `rpm_tarfile`}}",
+      "direction": "download"
+    },
+    {
+      "type": "file",
+      "source": "/home/centos/centos7-os-rpms.tar.gz",
+      "destination": "{{user `outputdir`}}/{{user `rpm_os_tarfile`}}",
+      "direction": "download"
+    }
+  ],
+  "variables": {
+    "vm_source": "",
+    "rpm_tarfile": "",
+    "cc_rpm": "",
+    "cc_repo": "",
+    "outputdir": "output"
+  }
+}
