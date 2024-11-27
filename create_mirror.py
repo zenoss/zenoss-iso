@@ -65,7 +65,7 @@ gpgcheck=0
     if not os.path.exists(mkyum_path):
         log.info("Retrieving mkyum..")
         # Clone the mkyum repo from the master branch.
-        branch = "release/5"
+        branch = "master"
         cmd = ["git", "clone", "git@github.com:zenoss/mkyum.git", "--branch", branch, "--single-branch", mkyum_path]
         check_call(cmd)
 
